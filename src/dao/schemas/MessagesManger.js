@@ -1,10 +1,13 @@
 import fs from 'fs/promises'
-import mongoose, { mongo } from 'mongoose'
+import mongoose from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate-v2'
 
-export const schemaMessages = new mongoose.Schema({
+const schemaMessages = new mongoose.Schema({
     user:{type:String,required:true},
     message:{type:String,required:true}
 },{versionKey:false})
+
+schemaMessages.plugin(mongoosePaginate)
 
 export class messagesManager{
     #mensajes
@@ -16,7 +19,7 @@ export class messagesManager{
     async mostrarMensajes() {
         const mensajes = await this.#mensajes.find().lean()
         return mensajes
-      }
+    }
 
 
     async guardarMensajes(mensajes) {

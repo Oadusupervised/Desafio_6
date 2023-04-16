@@ -2,7 +2,7 @@ import fs from 'fs/promises'
 import {schemaProducts } from './FileManager.js'
 import mongoose from 'mongoose'
 
-export const schemaCarts = new mongoose.Schema({
+const schemaCarts = new mongoose.Schema({
     id:{type:String, required:true},
     nombreProducts:{type:String, required:true}
 },{versionKey:false})
@@ -25,18 +25,18 @@ export class CartManager {
     }
 
     async mostrarCarrito(lim) {
-        const carritos = await this.#productos.find().limit(lim).exec()
+        const carritos = await this.#productos.find().limit(lim)
         return carritos
       }
       
 
     async buscarCosas() {
-        const carritos = await this.#productos.find().lean().exec()
+        const carritos = await this.#productos.find().lean()
         return carritos
     }
 
     async buscarCaractProducto(idProduct) {
-        const producto = await this.#productosManager.findById(idProduct).lean().exec()
+        const producto = await this.#productosManager.findById(idProduct).lean()
         if (!producto) {
             throw new Error('id no encontrado')
         }else{
@@ -45,7 +45,7 @@ export class CartManager {
     }
 
     async buscarCarritoSegunId(idCarrito) {
-        const buscada = this.#productos.findById(idCarrito).lean().exec()
+        const buscada = this.#productos.findById(idCarrito).lean()
         if (!buscada) {
             throw new Error('id no encontrado')
         }else{
@@ -69,7 +69,7 @@ export class CartManager {
     
 
     async borrarCarritoSegunId(id) {
-        const carritoBorrado = await this.#productos.findByIdAndDelete(id).lean().exec()
+        const carritoBorrado = await this.#productos.findByIdAndDelete(id).lean()
         if (!carritoBorrado) {
           throw new Error('id no encontrado');
         }
@@ -77,7 +77,7 @@ export class CartManager {
       }
       
     async reset() {
-        await this.#productos.deleteMany({}).exec()
+        await this.#productos.deleteMany({})
       }
       
 }

@@ -28,17 +28,17 @@ export class FileManager {
     }
 
     async mostrarproductos(lim) {
-        const products = await this.#productos.find().limit(lim).lean().exec()
+        const products = await this.#productos.find().limit(lim).lean()
         return products
     }
      
     async mostrarTodosProductos() {
-        const products = await this.#productos.find().lean().exec()
+        const products = await this.#productos.find().lean()
         return products
     }
 
     async buscarproductosSegunId(id) {
-        const productoId = await this.#productos.findById(id).lean().exec()
+        const productoId = await this.#productos.findById(id).lean()
         if (!productoId) {
             throw new Error('id no encontrado')
         }else{
@@ -61,7 +61,7 @@ export class FileManager {
       
 
     async borrarproductosSegunId(id) {
-        const borrado = await this.#productos.findOneAndDelete({ id: id }).exec()
+        const borrado = await this.#productos.findOneAndDelete({ id: id })
         if (!borrado) {
           throw new Error('id no encontrado')
         }else{
@@ -70,9 +70,11 @@ export class FileManager {
     }
       
       async reset() {
-        await this.#productos.deleteMany({}).exec()
+        await this.#productos.deleteMany({})
       }
       
 }
 
 export const fileManager = new FileManager()
+
+
